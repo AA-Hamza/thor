@@ -1,0 +1,20 @@
+name: Run Tests
+on: [push]
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Installing requried packages for meson
+        run: sudo apt-get install python3 python3-pip python3-setuptools python3-wheel ninja-build
+      - name: Installing meson
+        run: pip3 install --user meson
+      - name: Prepare build
+        run: meson build
+      - name: Run compile
+        working-directory: ./build
+        run: meson compile
+      - name: Run test
+        working-directory: ./build
+        run: meson test
