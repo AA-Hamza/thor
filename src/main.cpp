@@ -1,6 +1,17 @@
+#include "master/master.hpp"
 #include <iostream>
 
-int main()
+using namespace std;
+
+int main(int argc, char *argv[])
 {
-  std::cout << "Hello World" << std::endl;
+    if (argc == 2) {
+        cout << "starting master with " << atoi(argv[1]) << " slaves" << std::endl;
+        http::server::Master myMaster("localhost", "8080", "./home/", atoi(argv[1]));
+        myMaster.run();
+    }
+    else {
+        http::server::Master myMaster("localhost", "8080", "./home/", 1);
+        myMaster.run();
+    }
 }

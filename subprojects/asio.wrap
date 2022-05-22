@@ -1,0 +1,7 @@
+[wrap-file]
+directory = asio-1.22.1
+lead_directory_missing = true
+
+[provide]
+asio = asio_dep
+
