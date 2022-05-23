@@ -2,13 +2,15 @@
 
 #include <string>
 
-namespace http {
-namespace http {
+namespace http
+{
+namespace http
+{
 
 struct Header
 {
-  std::string name;
-  std::string value;
+    std::string name;
+    std::string value;
 };
 
 } // namespace http

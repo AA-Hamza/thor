@@ -11,7 +11,7 @@ namespace server
 Master::Master(const std::string &address, const std::string &port, const std::string &doc_root,
                const std::size_t num_of_workers)
     //: m_num_of_workers(num_of_workers), m_io_context(1),  m_signals(m_io_context), m_acceptor(m_io_context),
-    : m_num_of_workers(num_of_workers), m_io_context(),  m_signals(m_io_context), m_acceptor(m_io_context),
+    : m_num_of_workers(num_of_workers), m_io_context(), m_signals(m_io_context), m_acceptor(m_io_context),
       m_request_handler(doc_root)
 {
     // Registering program signals
@@ -73,8 +73,8 @@ void Master::await_stop()
 void Master::accept()
 {
     static int whos_turn = 0;
-    //asio::ip::tcp::socket new_socket_ptr = m_workers[whos_turn]->get_new_socket();
-    //asio::ip::tcp::socket *worker_new_socket_ptr = m_workers[whos_turn]->new_socket();
+    // asio::ip::tcp::socket new_socket_ptr = m_workers[whos_turn]->get_new_socket();
+    // asio::ip::tcp::socket *worker_new_socket_ptr = m_workers[whos_turn]->new_socket();
     auto worker_new_socket_ptr = m_workers[whos_turn]->new_socket_shared();
     m_acceptor.async_accept(*worker_new_socket_ptr, // Choosing worker io_context right away
                             [this, worker_new_socket_ptr](std::error_code ec) mutable {
@@ -84,7 +84,7 @@ void Master::accept()
                                 {
                                     return;
                                 }
-                                //std::cout << "worker #" << whos_turn << " took a connection" << std::endl;
+                                // std::cout << "worker #" << whos_turn << " took a connection" << std::endl;
 
                                 if (!ec)
                                 {
@@ -95,31 +95,31 @@ void Master::accept()
 
                                 accept();
                             });
-    //m_acceptor.async_accept(
-            /*
-    m_acceptor.async_accept(m_workers[whos_turn]->get_io_context(), // Choosing worker io_context right away
-                            [this](std::error_code ec, asio::ip::tcp::socket socket) {
-                                // Check whether the server was stopped by a signal before this
-                                // completion handler had a chance to run.
-                                if (!m_acceptor.is_open())
-                                {
-                                    return;
-                                }
-                                //std::cout << "worker #" << whos_turn << " took a connection" << std::endl;
+    // m_acceptor.async_accept(
+    /*
+m_acceptor.async_accept(m_workers[whos_turn]->get_io_context(), // Choosing worker io_context right away
+                    [this](std::error_code ec, asio::ip::tcp::socket socket) {
+                        // Check whether the server was stopped by a signal before this
+                        // completion handler had a chance to run.
+                        if (!m_acceptor.is_open())
+                        {
+                            return;
+                        }
+                        //std::cout << "worker #" << whos_turn << " took a connection" << std::endl;
 
-                                if (!ec)
-                                {
-                                    // m_workers[whos_turn].add_connection(std::make_shared<Connection>(std::move(socket)));
-                                    m_workers[whos_turn]->add_connection(socket, m_request_handler);
-                                    whos_turn++;
-                                    whos_turn %= m_num_of_workers;
-                                    // m_connection_manager.start(std::make_shared<Connection>(
-                                    // std::move(socket), m_connection_manager, m_request_handler));
-                                }
+                        if (!ec)
+                        {
+                            // m_workers[whos_turn].add_connection(std::make_shared<Connection>(std::move(socket)));
+                            m_workers[whos_turn]->add_connection(socket, m_request_handler);
+                            whos_turn++;
+                            whos_turn %= m_num_of_workers;
+                            // m_connection_manager.start(std::make_shared<Connection>(
+                            // std::move(socket), m_connection_manager, m_request_handler));
+                        }
 
-                                accept();
-                            });
-                            */
+                        accept();
+                    });
+                    */
 }
 
 } // namespace server

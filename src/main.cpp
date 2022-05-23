@@ -5,12 +5,14 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    if (argc == 2) {
+    if (argc == 2)
+    {
         cout << "starting master with " << atoi(argv[1]) << " slaves" << std::endl;
         http::server::Master myMaster("localhost", "9090", "./home/", atoi(argv[1]));
         myMaster.run();
     }
-    else {
+    else
+    {
         http::server::Master myMaster("localhost", "9090", "./home/", 1);
         myMaster.run();
     }
