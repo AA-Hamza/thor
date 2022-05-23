@@ -24,11 +24,13 @@ public:
     void start(void);
     void stop(void);
 
+    ~Connection();
 private:
     void read();
     void write();
 
     asio::ip::tcp::socket m_socket;
+    //std::shared_ptr<asio::ip::tcp::socket *>m_socket;
     ConnectionManager &m_connection_manager;
     RequestHandler &m_request_handler;
     std::array<char, BUFFER_SIZE> m_buffer;

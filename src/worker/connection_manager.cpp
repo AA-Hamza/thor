@@ -10,15 +10,14 @@ ConnectionManager::ConnectionManager()
 
 void ConnectionManager::start(ConnectionPointer c)
 {
-  m_connections.insert(c);
-  c->start();
+      m_connections.insert(c);
+      c->start();
 }
 
 void ConnectionManager::stop(ConnectionPointer c)
 {
-  m_connections.erase(c);
-  std::cout << "Removed connection from connection manager" << std::endl;
-  c->stop();
+      c->stop();
+      m_connections.erase(c);
 }
 
 void ConnectionManager::stop_all()
@@ -27,6 +26,5 @@ void ConnectionManager::stop_all()
     c->stop();
   m_connections.clear();
 }
-
 } // namespace server
 } // namespace http

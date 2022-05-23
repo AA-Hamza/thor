@@ -3,6 +3,7 @@
 #include "connection.hpp"
 #include <set>
 #include <unordered_set>
+#include <forward_list>
 
 namespace http {
 namespace server {
@@ -21,6 +22,7 @@ public:
 private:
     //std::set<ConnectionPointer> m_connections;
     std::unordered_set<ConnectionPointer> m_connections;
+    //std::forward_list<ConnectionPointer> m_connections;
 };
 
 }

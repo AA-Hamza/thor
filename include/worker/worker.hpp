@@ -15,9 +15,10 @@ public:
 
     Worker();
 
-    void add_connection(asio::ip::tcp::socket &socket_ref, RequestHandler &req_handler);
-    //void add_connection(ConnectionPointer & c_ptr, RequestHandler &req_handler);
+    void add_connection(std::shared_ptr<asio::ip::tcp::socket> socket_ptr, RequestHandler &req_handler);
     void stop_connections(void);
+    std::shared_ptr<asio::ip::tcp::socket> new_socket_shared(void);
+
     asio::io_context &get_io_context(void);
 
 private:
@@ -25,6 +26,7 @@ private:
     asio::thread *worker_thread;
     asio::io_context *m_io_context_ptr;
     ConnectionManager m_connection_manager;
+    friend class Master;
 };
 }
 }

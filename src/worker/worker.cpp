@@ -17,7 +17,7 @@ Worker::Worker(void)
                 auto work = asio::make_work_guard(*m_io_context_ptr);
                 asio::signal_set m_signals(*m_io_context_ptr);
                 m_signals.add(SIGINT);
-                //m_signals.add(SIGINT);
+                m_signals.add(SIGTERM);
 
 #if defined(SIGQUIT)
                 m_signals.add(SIGQUIT);
@@ -27,9 +27,15 @@ Worker::Worker(void)
             );
 }
 
-void Worker::add_connection(asio::ip::tcp::socket &socket_ref, RequestHandler &req_handler)
+std::shared_ptr<asio::ip::tcp::socket> Worker::new_socket_shared(void) {
+    return std::make_shared<asio::ip::tcp::socket>(asio::ip::tcp::socket(*m_io_context_ptr));
+}
+
+void Worker::add_connection(std::shared_ptr<asio::ip::tcp::socket> socket_ptr, RequestHandler &req_handler)
 {
-    m_connection_manager.start(std::make_shared<Connection>( std::move(socket_ref), m_connection_manager, req_handler));
+    m_connection_manager.start(std::make_shared<Connection>(std::move(*socket_ptr), m_connection_manager, req_handler));
+    //m_connection_manager.start(std::make_shared<Connection>(m_connection_manager, req_handler));
+    //m_connection_manager.start(std::make_shared<Connection>(socket_ref, m_connection_manager, req_handler));
 }
 
 void Worker::stop_connections(void)

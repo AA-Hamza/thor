@@ -16,6 +16,10 @@ Connection::Connection(asio::ip::tcp::socket socket,
 {
 }
 
+Connection::~Connection() {
+    stop();
+}
+
 void Connection::start()
 {
   read();
@@ -30,7 +34,7 @@ void Connection::read()
 {
   auto self(shared_from_this());
   m_socket.async_read_some(asio::buffer(m_buffer),
-      [this, self](std::error_code ec, std::size_t bytes_transferred)
+      [this, self](std::error_code ec, std::size_t bytes_transferred) mutable
       {
         if (!ec)
         {
@@ -56,8 +60,11 @@ void Connection::read()
         }
         else if (ec != asio::error::operation_aborted)
         {
-          m_connection_manager.stop(shared_from_this());
           //m_connection_manager.stop(self);
+          //m_connection_manager.stop(shared_from_this());
+          m_connection_manager.stop(self);
+          //self->m_socket.close();
+          //self.reset();
         }
       });
 }
@@ -66,7 +73,7 @@ void Connection::write()
 {
   auto self(shared_from_this());
   asio::async_write(m_socket, m_reply.to_buffers(),
-      [this, self](std::error_code ec, std::size_t)
+      [this, self](std::error_code ec, std::size_t) mutable
       {
         if (!ec)
         {
@@ -78,8 +85,10 @@ void Connection::write()
 
         if (ec != asio::error::operation_aborted)
         {
-          m_connection_manager.stop(shared_from_this());
           //m_connection_manager.stop(self);
+          m_connection_manager.stop(shared_from_this());
+          //self->m_socket.close();
+          //self.reset();
         }
       });
 }
