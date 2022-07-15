@@ -5,7 +5,7 @@
 #include <utility>
 #include <vector>
 
-namespace http
+namespace thor
 {
 namespace server
 {
@@ -34,7 +34,7 @@ void Connection::read()
 {
     auto self(shared_from_this());
     m_socket.async_read_some(
-        asio::buffer(m_buffer), [this, self](std::error_code ec, std::size_t bytes_transferred) mutable {
+        asio::buffer(m_buffer), [this, self](std::error_code ec, std::size_t bytes_transferred) {
             if (!ec)
             {
                 RequestParser::result_type result;
@@ -43,8 +43,7 @@ void Connection::read()
 
                 if (result == RequestParser::good)
                 {
-                    // m_request_handler.handle_request(m_request, m_reply);
-                    m_reply.content = "HELLO WORLD";
+                    m_request_handler.handle_request(m_request, m_reply);
                     write();
                 }
                 else if (result == RequestParser::bad)
@@ -59,11 +58,7 @@ void Connection::read()
             }
             else if (ec != asio::error::operation_aborted)
             {
-                // m_connection_manager.stop(self);
-                // m_connection_manager.stop(shared_from_this());
-                m_connection_manager.stop(self);
-                // self->m_socket.close();
-                // self.reset();
+                m_connection_manager.stop(shared_from_this());
             }
         });
 }
@@ -71,7 +66,7 @@ void Connection::read()
 void Connection::write()
 {
     auto self(shared_from_this());
-    asio::async_write(m_socket, m_reply.to_buffers(), [this, self](std::error_code ec, std::size_t) mutable {
+    asio::async_write(m_socket, m_reply.to_buffers(), [this, self](std::error_code ec, std::size_t) {
         if (!ec)
         {
             // Initiate graceful Connection closure.
@@ -81,13 +76,10 @@ void Connection::write()
 
         if (ec != asio::error::operation_aborted)
         {
-            // m_connection_manager.stop(self);
             m_connection_manager.stop(shared_from_this());
-            // self->m_socket.close();
-            // self.reset();
         }
     });
 }
 
 } // namespace server
-} // namespace http
+} // namespace thor

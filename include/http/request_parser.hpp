@@ -2,7 +2,7 @@
 #include "http/request.hpp"
 #include <tuple>
 
-namespace http
+namespace thor
 {
 namespace http
 {
@@ -84,4 +84,4 @@ class RequestParser
 };
 
 } // namespace http
-} // namespace http
+} // namespace thor

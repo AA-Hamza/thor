@@ -17,17 +17,18 @@
 #include <sstream>
 #include <string>
 
-namespace http
+namespace thor
 {
 using http::Reply;
 using http::Request;
 namespace mime_types = http::mime_types;
+
+
 namespace server
 {
 
 RequestHandler::RequestHandler(const std::string &doc_root) : m_doc_root(doc_root)
-{
-}
+{}
 
 void RequestHandler::handle_request(const Request &req, Reply &rep)
 {
@@ -72,7 +73,7 @@ void RequestHandler::handle_request(const Request &req, Reply &rep)
 
     // Fill out the reply to be sent to the client.
     rep.status = Reply::ok;
-    char buf[512];
+    char buf[4096];
     while (is.read(buf, sizeof(buf)).gcount() > 0)
         rep.content.append(buf, is.gcount());
     rep.headers.resize(2);
@@ -122,4 +123,4 @@ bool RequestHandler::url_decode(const std::string &in, std::string &out)
 }
 
 } // namespace server
-} // namespace http
+} // namespace thor

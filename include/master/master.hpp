@@ -5,7 +5,7 @@
 #include <thread>
 #include <vector>
 
-namespace http
+namespace thor
 {
 namespace server
 {
@@ -41,4 +41,4 @@ class Master
     RequestHandler m_request_handler;
 };
 } // namespace server
-} // namespace http
+} // namespace thor

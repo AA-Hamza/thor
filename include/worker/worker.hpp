@@ -4,7 +4,7 @@
 #include "worker/connection_manager.hpp"
 #include <asio.hpp>
 
-namespace http
+namespace thor
 {
 namespace server
 {
@@ -18,7 +18,7 @@ class Worker
 
     Worker();
 
-    void add_connection(std::shared_ptr<asio::ip::tcp::socket> socket_ptr, RequestHandler &req_handler);
+    void add_connection(asio::ip::tcp::socket *socket, RequestHandler &req_handler);
     void stop_connections(void);
     std::shared_ptr<asio::ip::tcp::socket> new_socket_shared(void);
 
@@ -26,10 +26,12 @@ class Worker
 
   private:
     // std::thread *worker_thread;
+    //std::thread *worker_thread;
     asio::thread *worker_thread;
     asio::io_context *m_io_context_ptr;
     ConnectionManager m_connection_manager;
+
     friend class Master;
 };
 } // namespace server
-} // namespace http
+} // namespace thor 

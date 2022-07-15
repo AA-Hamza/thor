@@ -4,7 +4,7 @@
 #include "http/request.hpp"
 #include <string>
 
-namespace http
+namespace thor
 {
 using http::Reply;
 using http::Request;
@@ -34,4 +34,4 @@ class RequestHandler
 };
 
 } // namespace server
-} // namespace http
+} // namespace thor

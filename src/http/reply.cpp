@@ -12,7 +12,7 @@
 #include "http/reply.hpp"
 #include <string>
 
-namespace http
+namespace thor
 {
 namespace http
 {
@@ -223,8 +223,9 @@ Reply Reply::stock_reply(Reply::status_type status)
     rep.headers[0].value = std::to_string(rep.content.size());
     rep.headers[1].name = "Content-Type";
     rep.headers[1].value = "text/html";
+
     return rep;
 }
 
 } // namespace http
-} // namespace http
+} // namespace thor

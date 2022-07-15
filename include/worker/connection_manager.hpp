@@ -4,8 +4,9 @@
 #include <forward_list>
 #include <set>
 #include <unordered_set>
+#include <mutex>
 
-namespace http
+namespace thor
 {
 namespace server
 {
@@ -25,8 +26,9 @@ class ConnectionManager
   private:
     // std::set<ConnectionPointer> m_connections;
     std::unordered_set<ConnectionPointer> m_connections;
+    std::mutex m_connection_manager_lock;
     // std::forward_list<ConnectionPointer> m_connections;
 };
 
 } // namespace server
-} // namespace http
+} // namespace thor

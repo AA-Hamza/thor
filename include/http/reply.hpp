@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-namespace http
+namespace thor
 {
 namespace http
 {
@@ -50,4 +50,4 @@ struct Reply
 };
 
 } // namespace http
-} // namespace http
+} // namespace thor

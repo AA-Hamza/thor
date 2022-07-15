@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace http
+namespace thor
 {
 namespace http
 {
@@ -14,4 +14,4 @@ struct Header
 };
 
 } // namespace http
-} // namespace http
+} // namespace thor

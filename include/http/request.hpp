@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace http
+namespace thor
 {
 namespace http
 {
@@ -20,4 +20,4 @@ struct Request
 };
 
 } // namespace http
-} // namespace http
+} // namespace thor

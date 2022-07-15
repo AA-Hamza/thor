@@ -12,7 +12,7 @@
 #include "http/request_parser.hpp"
 #include "http/request.hpp"
 
-namespace http
+namespace thor
 {
 namespace http
 {
@@ -329,4 +329,4 @@ bool RequestParser::is_digit(int c)
 }
 
 } // namespace http
-} // namespace http
+} // namespace thor

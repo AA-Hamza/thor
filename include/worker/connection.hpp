@@ -4,7 +4,7 @@
 #include "request_handler.hpp"
 #include <asio.hpp>
 
-namespace http
+namespace thor
 {
 using http::Request;
 using http::RequestParser;
@@ -32,6 +32,7 @@ class Connection : public std::enable_shared_from_this<Connection>
     void read();
     void write();
 
+    //std::shared_ptr<asio::ip::tcp::socket> m_socket;
     asio::ip::tcp::socket m_socket;
     // std::shared_ptr<asio::ip::tcp::socket *>m_socket;
     ConnectionManager &m_connection_manager;
@@ -48,4 +49,4 @@ class Connection : public std::enable_shared_from_this<Connection>
 typedef std::shared_ptr<Connection> ConnectionPointer;
 
 } // namespace server
-} // namespace http
+} // namespace thor
